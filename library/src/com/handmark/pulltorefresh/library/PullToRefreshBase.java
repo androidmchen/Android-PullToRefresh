@@ -70,8 +70,10 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 	// ===========================================================
 
 	private int mTouchSlop;
-	private float mLastMotionX, mLastMotionY;
-	private float mInitialMotionX, mInitialMotionY;
+	private float mLastMotionX;
+	private float mLastMotionY;
+	private float mInitialMotionX;
+	private float mInitialMotionY;
 
 	private boolean mIsBeingDragged = false;
 	private State mState = State.RESET;
@@ -181,13 +183,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 	@Override
 	public final State getState() {
 		return mState;
-	}
-
-	/**
-	 * @deprecated See {@link #isScrollingWhileRefreshingEnabled()}.
-	 */
-	public final boolean isDisableScrollingWhileRefreshing() {
-		return !isScrollingWhileRefreshingEnabled();
 	}
 
 	@Override
@@ -363,13 +358,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 
 	public final void setScrollingWhileRefreshingEnabled(boolean allowScrollingWhileRefreshing) {
 		mScrollingWhileRefreshingEnabled = allowScrollingWhileRefreshing;
-	}
-
-	/**
-	 * @deprecated See {@link #setScrollingWhileRefreshingEnabled(boolean)}
-	 */
-	public void setDisableScrollingWhileRefreshing(boolean disableScrollingWhileRefreshing) {
-		setScrollingWhileRefreshingEnabled(!disableScrollingWhileRefreshing);
 	}
 
 	@Override
@@ -1243,16 +1231,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 		 * {@link PullToRefreshBase#setRefreshing() setRefreshing()}.
 		 */
 		MANUAL_REFRESH_ONLY(0x4);
-
-		/**
-		 * @deprecated Use {@link #PULL_FROM_START} from now on.
-		 */
-		public static Mode PULL_DOWN_TO_REFRESH = Mode.PULL_FROM_START;
-
-		/**
-		 * @deprecated Use {@link #PULL_FROM_END} from now on.
-		 */
-		public static Mode PULL_UP_TO_REFRESH = Mode.PULL_FROM_END;
 
 		/**
 		 * Maps an int to a specific mode. This is needed when saving state, or
