@@ -32,7 +32,6 @@ public final class PullToRefreshWebViewActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ptr_webview);
-
 		mPullRefreshWebView = (PullToRefreshWebView) findViewById(R.id.pull_refresh_webview);
 		mWebView = mPullRefreshWebView.getRefreshableView();
 

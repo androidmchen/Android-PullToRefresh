@@ -40,7 +40,6 @@ public class PullToRefreshViewPagerActivity extends Activity implements OnRefres
 
 		mPullToRefreshViewPager = (PullToRefreshViewPager) findViewById(R.id.pull_refresh_viewpager);
 		mPullToRefreshViewPager.setOnRefreshListener(this);
-
 		ViewPager vp = mPullToRefreshViewPager.getRefreshableView();
 		vp.setAdapter(new SamplePagerAdapter());
 	}

@@ -16,8 +16,6 @@
 package com.handmark.pulltorefresh.library;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
@@ -37,7 +35,6 @@ import android.widget.LinearLayout;
 import com.handmark.pulltorefresh.library.internal.FlipLoadingLayout;
 import com.handmark.pulltorefresh.library.internal.LoadingLayout;
 import com.handmark.pulltorefresh.library.internal.RotateLoadingLayout;
-import com.handmark.pulltorefresh.library.internal.Utils;
 import com.handmark.pulltorefresh.library.internal.ViewCompat;
 
 public abstract class PullToRefreshBase<T extends View> extends LinearLayout implements IPullToRefresh<T> {
@@ -469,9 +466,9 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 		super.addView(child, -1, params);
 	}
 
-	protected LoadingLayout createLoadingLayout(Context context, Mode mode, TypedArray attrs) {
+	protected LoadingLayout createLoadingLayout(Context context, Mode mode) {
 		LoadingLayout layout = mLoadingAnimationStyle.createLoadingLayout(context, mode,
-				getPullToRefreshScrollDirection(), attrs);
+				getPullToRefreshScrollDirection());
 		layout.setVisibility(View.INVISIBLE);
 		return layout;
 	}
@@ -530,7 +527,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 	 * 
 	 * @param a - TypedArray of PullToRefresh Attributes
 	 */
-	protected void handleStyledAttributes(TypedArray a) {
+	protected void handleStyledAttributes() {
 	}
 
 	/**
@@ -937,7 +934,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         }
     }
 	
-	@SuppressWarnings("deprecation")
 	private void init(Context context, AttributeSet attrs) {
 		switch (getPullToRefreshScrollDirection()) {
 			case HORIZONTAL:
@@ -954,56 +950,16 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 		ViewConfiguration config = ViewConfiguration.get(context);
 		mTouchSlop = config.getScaledTouchSlop();
 
-		// Styleables from XML
-		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PullToRefresh);
-
-		if (a.hasValue(R.styleable.PullToRefresh_ptrMode)) {
-			mMode = Mode.mapIntToValue(a.getInteger(R.styleable.PullToRefresh_ptrMode, 0));
-		}
-
-		if (a.hasValue(R.styleable.PullToRefresh_ptrAnimationStyle)) {
-			mLoadingAnimationStyle = AnimationStyle.mapIntToValue(a.getInteger(
-					R.styleable.PullToRefresh_ptrAnimationStyle, 0));
-		}
-
 		// Refreshable View
 		// By passing the attrs, we can add ListView/GridView params via XML
 		mRefreshableView = createRefreshableView(context, attrs);
 		addRefreshableView(context, mRefreshableView);
 
 		// We need to create now layouts now
-		mHeaderLayout = createLoadingLayout(context, Mode.PULL_FROM_START, a);
-		mFooterLayout = createLoadingLayout(context, Mode.PULL_FROM_END, a);
+		mHeaderLayout = createLoadingLayout(context, Mode.PULL_FROM_START);
+		mFooterLayout = createLoadingLayout(context, Mode.PULL_FROM_END);
 
-		/**
-		 * Styleables from XML
-		 */
-		if (a.hasValue(R.styleable.PullToRefresh_ptrRefreshableViewBackground)) {
-			Drawable background = a.getDrawable(R.styleable.PullToRefresh_ptrRefreshableViewBackground);
-			if (null != background) {
-				mRefreshableView.setBackgroundDrawable(background);
-			}
-		} else if (a.hasValue(R.styleable.PullToRefresh_ptrAdapterViewBackground)) {
-			Utils.warnDeprecation("ptrAdapterViewBackground", "ptrRefreshableViewBackground");
-			Drawable background = a.getDrawable(R.styleable.PullToRefresh_ptrAdapterViewBackground);
-			if (null != background) {
-				mRefreshableView.setBackgroundDrawable(background);
-			}
-		}
-
-		if (a.hasValue(R.styleable.PullToRefresh_ptrOverScroll)) {
-			mOverScrollEnabled = a.getBoolean(R.styleable.PullToRefresh_ptrOverScroll, true);
-		}
-
-		if (a.hasValue(R.styleable.PullToRefresh_ptrScrollingWhileRefreshingEnabled)) {
-			mScrollingWhileRefreshingEnabled = a.getBoolean(
-					R.styleable.PullToRefresh_ptrScrollingWhileRefreshingEnabled, false);
-		}
-
-		// Let the derivative classes have a go at handling attributes, then
-		// recycle them...
-		handleStyledAttributes(a);
-		a.recycle();
+		handleStyledAttributes();
 
 		// Finally update the UI for the modes
 		updateUIForMode();
@@ -1188,13 +1144,13 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 			}
 		}
 
-		LoadingLayout createLoadingLayout(Context context, Mode mode, Orientation scrollDirection, TypedArray attrs) {
+		LoadingLayout createLoadingLayout(Context context, Mode mode, Orientation scrollDirection) {
 			switch (this) {
 				case ROTATE:
 				default:
-					return new RotateLoadingLayout(context, mode, scrollDirection, attrs);
+					return new RotateLoadingLayout(context, mode, scrollDirection);
 				case FLIP:
-					return new FlipLoadingLayout(context, mode, scrollDirection, attrs);
+					return new FlipLoadingLayout(context, mode, scrollDirection);
 			}
 		}
 	}

@@ -21,13 +21,16 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.ExpandableListActivity;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.internal.LoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 
 public final class PullToRefreshExpandableListActivity extends ExpandableListActivity {
@@ -46,7 +49,10 @@ public final class PullToRefreshExpandableListActivity extends ExpandableListAct
 		setContentView(R.layout.activity_ptr_expandable_list);
 
 		mPullRefreshListView = (PullToRefreshExpandableListView) findViewById(R.id.pull_refresh_expandable_list);
-
+		mPullRefreshListView.setMode(Mode.PULL_FROM_END);
+		LoadingLayout headerLayout = mPullRefreshListView.getHeaderLayout();
+		headerLayout.setBackgroundColor(Color.DKGRAY);
+		
 		// Set a listener to be invoked when the list should be refreshed.
 		mPullRefreshListView.setOnRefreshListener(new OnRefreshListener<ExpandableListView>() {
 

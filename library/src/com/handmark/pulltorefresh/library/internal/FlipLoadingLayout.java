@@ -17,7 +17,6 @@ package com.handmark.pulltorefresh.library.internal;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -37,8 +36,8 @@ public class FlipLoadingLayout extends LoadingLayout {
 
 	private final Animation mRotateAnimation, mResetRotateAnimation;
 
-	public FlipLoadingLayout(Context context, final Mode mode, final Orientation scrollDirection, TypedArray attrs) {
-		super(context, mode, scrollDirection, attrs);
+	public FlipLoadingLayout(Context context, final Mode mode, final Orientation scrollDirection) {
+		super(context, mode, scrollDirection);
 
 		final int rotateAngle = mode == Mode.PULL_FROM_START ? -180 : 180;
 

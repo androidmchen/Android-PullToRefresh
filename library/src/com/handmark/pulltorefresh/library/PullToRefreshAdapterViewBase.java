@@ -16,7 +16,6 @@
 package com.handmark.pulltorefresh.library;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -234,8 +233,6 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 		}
 	}
 
-	;
-
 	@Override
 	protected void onPullToRefresh() {
 		super.onPullToRefresh();
@@ -292,9 +289,9 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	}
 
 	@Override
-	protected void handleStyledAttributes(TypedArray a) {
-		// Set Show Indicator to the XML value, or default value
-		mShowIndicator = a.getBoolean(R.styleable.PullToRefresh_ptrShowIndicator, !isPullToRefreshOverScrollEnabled());
+	protected void handleStyledAttributes() {
+		// Set Show Indicator to the default value
+		mShowIndicator = !isPullToRefreshOverScrollEnabled();
 	}
 
 	protected boolean isReadyForPullStart() {

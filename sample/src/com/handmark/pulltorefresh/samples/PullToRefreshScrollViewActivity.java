@@ -34,7 +34,6 @@ public final class PullToRefreshScrollViewActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ptr_scrollview);
-
 		mPullRefreshScrollView = (PullToRefreshScrollView) findViewById(R.id.pull_refresh_scrollview);
 		mPullRefreshScrollView.setOnRefreshListener(new OnRefreshListener<ScrollView>() {
 

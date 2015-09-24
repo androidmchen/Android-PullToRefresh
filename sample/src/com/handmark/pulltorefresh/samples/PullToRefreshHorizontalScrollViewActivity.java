@@ -34,7 +34,6 @@ public final class PullToRefreshHorizontalScrollViewActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ptr_horizontalscrollview);
-
 		mPullRefreshScrollView = (PullToRefreshHorizontalScrollView) findViewById(R.id.pull_refresh_horizontalscrollview);
 		mPullRefreshScrollView.setOnRefreshListener(new OnRefreshListener<HorizontalScrollView>() {
 

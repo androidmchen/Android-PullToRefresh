@@ -34,7 +34,6 @@ public class PullToRefreshListInViewPagerActivity extends Activity implements On
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ptr_list_in_vp);
-
 		mViewPager = (ViewPager) findViewById(R.id.vp_list);
 		mViewPager.setAdapter(new ListViewPagerAdapter());
 	}

@@ -31,7 +31,6 @@ public final class PullToRefreshWebView2Activity extends Activity implements OnR
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ptr_webview2);
-
 		PullToRefreshWebView2 pullRefreshWebView = (PullToRefreshWebView2) findViewById(R.id.pull_refresh_webview2);
 		pullRefreshWebView.setOnRefreshListener(this);
 

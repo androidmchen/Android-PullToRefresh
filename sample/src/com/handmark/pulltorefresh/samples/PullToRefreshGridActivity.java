@@ -48,7 +48,7 @@ public final class PullToRefreshGridActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ptr_grid);
-
+		
 		mPullRefreshGridView = (PullToRefreshGridView) findViewById(R.id.pull_refresh_grid);
 		mGridView = mPullRefreshGridView.getRefreshableView();
 

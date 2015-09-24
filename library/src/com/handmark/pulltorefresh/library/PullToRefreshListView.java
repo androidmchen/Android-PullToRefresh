@@ -17,7 +17,6 @@ package com.handmark.pulltorefresh.library;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -202,11 +201,9 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
     }
 
     @Override
-    protected void handleStyledAttributes(TypedArray a) {
-        super.handleStyledAttributes(a);
-
-        mListViewExtrasEnabled = a.getBoolean(R.styleable.PullToRefresh_ptrListViewExtrasEnabled, true);
-
+    protected void handleStyledAttributes() {
+        super.handleStyledAttributes();
+        mListViewExtrasEnabled = true;
         if (mListViewExtrasEnabled) {
             final FrameLayout.LayoutParams lp =
                     new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
@@ -214,13 +211,13 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 
             // Create Loading Views ready for use later
             FrameLayout frame = new FrameLayout(getContext());
-            mHeaderLoadingView = createLoadingLayout(getContext(), Mode.PULL_FROM_START, a);
+            mHeaderLoadingView = createLoadingLayout(getContext(), Mode.PULL_FROM_START);
             mHeaderLoadingView.setVisibility(View.GONE);
             frame.addView(mHeaderLoadingView, lp);
             mRefreshableView.addHeaderView(frame, null, false);
 
             mLvFooterLoadingFrame = new FrameLayout(getContext());
-            mFooterLoadingView = createLoadingLayout(getContext(), Mode.PULL_FROM_END, a);
+            mFooterLoadingView = createLoadingLayout(getContext(), Mode.PULL_FROM_END);
             mFooterLoadingView.setVisibility(View.GONE);
             mLvFooterLoadingFrame.addView(mFooterLoadingView, lp);
 
@@ -228,9 +225,7 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
              * If the value for Scrolling While Refreshing hasn't been explicitly set via XML, enable Scrolling While
              * Refreshing.
              */
-            if (!a.hasValue(R.styleable.PullToRefresh_ptrScrollingWhileRefreshingEnabled)) {
-                setScrollingWhileRefreshingEnabled(true);
-            }
+            setScrollingWhileRefreshingEnabled(true);
         }
     }
 
