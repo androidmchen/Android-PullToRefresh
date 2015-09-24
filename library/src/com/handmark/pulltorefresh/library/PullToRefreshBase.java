@@ -1121,7 +1121,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
          * @param modeInt - int to map a Mode to
          * @return Mode that modeInt maps to, or PULL_FROM_START by default.
          */
-        static Mode mapIntToValue(final int modeInt) {
+        public static Mode mapIntToValue(final int modeInt) {
             for (Mode value : Mode.values()) {
                 if (modeInt == value.getIntValue()) {
                     return value;
@@ -1268,7 +1268,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
          * @param stateInt - int to map a State to
          * @return State that stateInt maps to
          */
-        static State mapIntToValue(final int stateInt) {
+        public static State mapIntToValue(final int stateInt) {
             for (State value : State.values()) {
                 if (stateInt == value.getIntValue()) {
                     return value;
@@ -1285,7 +1285,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
             mIntValue = intValue;
         }
 
-        int getIntValue() {
+        public int getIntValue() {
             return mIntValue;
         }
     }
