@@ -52,15 +52,19 @@ public final class PullToRefreshWebView2Activity extends Activity implements OnR
 		}
 	}
 
-	@Override
-	public void onRefresh(final PullToRefreshBase<WebView> refreshView) {
-		// This is very contrived example, we just wait 2 seconds, then call
-		// onRefreshComplete()
-		refreshView.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				refreshView.onRefreshComplete();
-			}
-		}, 2 * 1000);
-	}
+    @Override
+    public void onPullStartToRefresh(final PullToRefreshBase<WebView> refreshView) {
+     // This is very contrived example, we just wait 2 seconds, then call
+        // onRefreshComplete()
+        refreshView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshView.onRefreshComplete();
+            }
+        }, 2 * 1000);
+    }
+
+    @Override
+    public void onPullEndToRefresh(PullToRefreshBase<WebView> refreshView) {
+    }
 }

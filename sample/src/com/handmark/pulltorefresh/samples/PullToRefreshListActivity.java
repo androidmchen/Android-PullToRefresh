@@ -61,17 +61,24 @@ public final class PullToRefreshListActivity extends ListActivity {
 
 		// Set a listener to be invoked when the list should be refreshed.
 		mPullRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
-			@Override
-			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				String label = DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(),
-						DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
 
-				// Update the LastUpdatedLabel
-				refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+            @Override
+            public void onPullStartToRefresh(PullToRefreshBase<ListView> refreshView) {
+                String label = DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(),
+                        DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
 
-				// Do work to refresh the list here.
-				new GetDataTask().execute();
-			}
+                // Update the LastUpdatedLabel
+                refreshView.getHeaderLayout().setLastUpdatedLabel(label);
+
+                // Do work to refresh the list here.
+                new GetDataTask().execute();
+            }
+
+            @Override
+            public void onPullEndToRefresh(PullToRefreshBase<ListView> refreshView) {
+                // TODO Auto-generated method stub
+                
+            }
 		});
 
 		// Add an end-of-list listener

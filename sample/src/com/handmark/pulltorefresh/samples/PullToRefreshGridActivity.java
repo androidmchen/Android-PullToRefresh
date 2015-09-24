@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshGridView;
 
 public final class PullToRefreshGridActivity extends Activity {
@@ -53,19 +53,19 @@ public final class PullToRefreshGridActivity extends Activity {
 		mGridView = mPullRefreshGridView.getRefreshableView();
 
 		// Set a listener to be invoked when the list should be refreshed.
-		mPullRefreshGridView.setOnRefreshListener(new OnRefreshListener2<GridView>() {
+		mPullRefreshGridView.setOnRefreshListener(new OnRefreshListener<GridView>() {
 
-			@Override
-			public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
-				Toast.makeText(PullToRefreshGridActivity.this, "Pull Down!", Toast.LENGTH_SHORT).show();
-				new GetDataTask().execute();
-			}
+            @Override
+            public void onPullStartToRefresh(PullToRefreshBase<GridView> refreshView) {
+                Toast.makeText(PullToRefreshGridActivity.this, "Pull Down!", Toast.LENGTH_SHORT).show();
+                new GetDataTask().execute();
+            }
 
-			@Override
-			public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
-				Toast.makeText(PullToRefreshGridActivity.this, "Pull Up!", Toast.LENGTH_SHORT).show();
-				new GetDataTask().execute();
-			}
+            @Override
+            public void onPullEndToRefresh(PullToRefreshBase<GridView> refreshView) {
+                Toast.makeText(PullToRefreshGridActivity.this, "Pull Up!", Toast.LENGTH_SHORT).show();
+                new GetDataTask().execute();
+            }
 
 		});
 

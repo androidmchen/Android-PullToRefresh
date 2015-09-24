@@ -49,11 +49,16 @@ public final class PullToRefreshExpandableListActivity extends ExpandableListAct
 
 		// Set a listener to be invoked when the list should be refreshed.
 		mPullRefreshListView.setOnRefreshListener(new OnRefreshListener<ExpandableListView>() {
-			@Override
-			public void onRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
-				// Do work to refresh the list here.
-				new GetDataTask().execute();
-			}
+
+            @Override
+            public void onPullStartToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+                // Do work to refresh the list here.
+                new GetDataTask().execute();
+            }
+
+            @Override
+            public void onPullEndToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+            }
 		});
 
 		for (String group : mGroupStrings) {

@@ -182,24 +182,6 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
         super.onReset();
     }
 
-    @Override
-    protected LoadingLayoutProxy createLoadingLayoutProxy(final boolean includeStart, final boolean includeEnd) {
-        LoadingLayoutProxy proxy = super.createLoadingLayoutProxy(includeStart, includeEnd);
-
-        if (mListViewExtrasEnabled) {
-            final Mode mode = getMode();
-
-            if (includeStart && mode.showHeaderLoadingLayout()) {
-                proxy.addLayout(mHeaderLoadingView);
-            }
-            if (includeEnd && mode.showFooterLoadingLayout()) {
-                proxy.addLayout(mFooterLoadingView);
-            }
-        }
-
-        return proxy;
-    }
-
     protected ListView createListView(Context context, AttributeSet attrs) {
         final ListView lv;
         if (VERSION.SDK_INT >= VERSION_CODES.GINGERBREAD) {

@@ -35,13 +35,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Orientation;
 import com.handmark.pulltorefresh.library.R;
 
 @SuppressLint("ViewConstructor")
-public abstract class LoadingLayout extends FrameLayout implements ILoadingLayout {
+public abstract class LoadingLayout extends FrameLayout {
 
 	static final String LOG_TAG = "PullToRefresh-LoadingLayout";
 
@@ -280,7 +279,12 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 		}
 	}
 
-	@Override
+	/**
+     * Set the Last Updated Text. This displayed under the main label when
+     * Pulling
+     * 
+     * @param label - Label to set
+     */
 	public void setLastUpdatedLabel(CharSequence label) {
 		setSubHeaderText(label);
 	}
@@ -306,7 +310,12 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 		mReleaseLabel = releaseLabel;
 	}
 
-	@Override
+	/**
+     * Set's the Sets the typeface and style in which the text should be
+     * displayed. Please see
+     * {@link android.widget.TextView#setTypeface(Typeface)
+     * TextView#setTypeface(Typeface)}.
+     */
 	public void setTextTypeface(Typeface tf) {
 		mHeaderText.setTypeface(tf);
 	}

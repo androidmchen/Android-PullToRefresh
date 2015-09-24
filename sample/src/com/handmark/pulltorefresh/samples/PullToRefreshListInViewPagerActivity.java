@@ -78,10 +78,14 @@ public class PullToRefreshListInViewPagerActivity extends Activity implements On
 	}
 
 	@Override
-	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-		new GetDataTask(refreshView).execute();
+	public void onPullStartToRefresh(PullToRefreshBase<ListView> refreshView) {
+	    new GetDataTask(refreshView).execute();
 	}
 
+	@Override
+	public void onPullEndToRefresh(PullToRefreshBase<ListView> refreshView) {
+	}
+	    
 	private static class GetDataTask extends AsyncTask<Void, Void, Void> {
 
 		PullToRefreshBase<?> mRefreshedView;

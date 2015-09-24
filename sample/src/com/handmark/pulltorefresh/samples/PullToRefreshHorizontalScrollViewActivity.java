@@ -38,10 +38,14 @@ public final class PullToRefreshHorizontalScrollViewActivity extends Activity {
 		mPullRefreshScrollView = (PullToRefreshHorizontalScrollView) findViewById(R.id.pull_refresh_horizontalscrollview);
 		mPullRefreshScrollView.setOnRefreshListener(new OnRefreshListener<HorizontalScrollView>() {
 
-			@Override
-			public void onRefresh(PullToRefreshBase<HorizontalScrollView> refreshView) {
-				new GetDataTask().execute();
-			}
+            @Override
+            public void onPullStartToRefresh(PullToRefreshBase<HorizontalScrollView> refreshView) {
+                new GetDataTask().execute();
+            }
+
+            @Override
+            public void onPullEndToRefresh(PullToRefreshBase<HorizontalScrollView> refreshView) {
+            }
 		});
 
 		mScrollView = mPullRefreshScrollView.getRefreshableView();

@@ -67,11 +67,15 @@ public final class PullToRefreshListFragmentActivity extends FragmentActivity im
 	}
 
 	@Override
-	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-		// Do work to refresh the list here.
-		new GetDataTask().execute();
-	}
+    public void onPullStartToRefresh(PullToRefreshBase<ListView> refreshView) {
+	    // Do work to refresh the list here.
+        new GetDataTask().execute();
+    }
 
+    @Override
+    public void onPullEndToRefresh(PullToRefreshBase<ListView> refreshView) {
+    }
+    
 	private class GetDataTask extends AsyncTask<Void, Void, String[]> {
 
 		@Override
@@ -101,4 +105,6 @@ public final class PullToRefreshListFragmentActivity extends FragmentActivity im
 			"Allgauer Emmentaler", "Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam", "Abondance", "Ackawi",
 			"Acorn", "Adelost", "Affidelice au Chablis", "Afuega'l Pitu", "Airag", "Airedale", "Aisy Cendre",
 			"Allgauer Emmentaler" };
+
+    
 }

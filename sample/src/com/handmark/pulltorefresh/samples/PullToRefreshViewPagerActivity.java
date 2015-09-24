@@ -46,10 +46,14 @@ public class PullToRefreshViewPagerActivity extends Activity implements OnRefres
 	}
 
 	@Override
-	public void onRefresh(PullToRefreshBase<ViewPager> refreshView) {
-		new GetDataTask().execute();
+	public void onPullStartToRefresh(PullToRefreshBase<ViewPager> refreshView) {
+	    new GetDataTask().execute();
 	}
 
+	@Override
+	public void onPullEndToRefresh(PullToRefreshBase<ViewPager> refreshView) {
+	}
+	    
 	static class SamplePagerAdapter extends PagerAdapter {
 
 		private static int[] sDrawables = { R.drawable.wallpaper, R.drawable.wallpaper, R.drawable.wallpaper,
