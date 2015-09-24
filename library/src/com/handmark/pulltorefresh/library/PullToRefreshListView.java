@@ -35,9 +35,7 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
     private LoadingLayout mHeaderLoadingView;
     private LoadingLayout mFooterLoadingView;
 
-    private FrameLayout mLvFooterLoadingFrame;
-
-    private boolean mListViewExtrasEnabled;
+    protected FrameLayout mLvFooterLoadingFrame;
 
     public PullToRefreshListView(Context context) {
         super(context);
@@ -67,7 +65,7 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
          * use the normal method.
          */
         ListAdapter adapter = mRefreshableView.getAdapter();
-        if (!mListViewExtrasEnabled || !getShowViewWhileRefreshing() || null == adapter || adapter.isEmpty()) {
+        if (!true || !getShowViewWhileRefreshing() || null == adapter || adapter.isEmpty()) {
             super.onRefreshing(doScroll);
             return;
         }
@@ -129,13 +127,10 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
         /**
          * If the extras are not enabled, just call up to super and return.
          */
-        if (!mListViewExtrasEnabled) {
-            super.onReset();
-            return;
-        }
-
-        final LoadingLayout originalLoadingLayout, listViewLoadingLayout;
-        final int scrollToHeight, selection;
+        final LoadingLayout originalLoadingLayout;
+        final LoadingLayout listViewLoadingLayout;
+        final int scrollToHeight;
+        final int selection;
         final boolean scrollLvToEdge;
 
         switch (getCurrentMode()) {
@@ -160,13 +155,10 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
         // If the ListView header loading layout is showing, then we need to
         // flip so that the original one is showing instead
         if (listViewLoadingLayout.getVisibility() == View.VISIBLE) {
-
             // Set our Original View to Visible
             originalLoadingLayout.showInvisibleViews();
-
             // Hide the ListView Header/Footer
             listViewLoadingLayout.setVisibility(View.GONE);
-
             /**
              * Scroll so the View is at the same Y as the ListView header/footer, but only scroll if: we've pulled to
              * refresh, it's positioned correctly
@@ -176,7 +168,6 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
                 setHeaderScroll(scrollToHeight);
             }
         }
-
         // Finally, call up to super
         super.onReset();
     }
@@ -202,30 +193,24 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
     @Override
     protected void handleStyledAttributes() {
         super.handleStyledAttributes();
-        mListViewExtrasEnabled = true;
-        if (mListViewExtrasEnabled) {
-            final FrameLayout.LayoutParams lp =
-                    new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-                            FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL);
-
-            // Create Loading Views ready for use later
-            FrameLayout frame = new FrameLayout(getContext());
-            mHeaderLoadingView = createLoadingLayout(getContext(), Mode.PULL_FROM_START);
-            mHeaderLoadingView.setVisibility(View.GONE);
-            frame.addView(mHeaderLoadingView, lp);
-            mRefreshableView.addHeaderView(frame, null, false);
-
-            mLvFooterLoadingFrame = new FrameLayout(getContext());
-            mFooterLoadingView = createLoadingLayout(getContext(), Mode.PULL_FROM_END);
-            mFooterLoadingView.setVisibility(View.GONE);
-            mLvFooterLoadingFrame.addView(mFooterLoadingView, lp);
-
-            /**
-             * If the value for Scrolling While Refreshing hasn't been explicitly set via XML, enable Scrolling While
-             * Refreshing.
-             */
-            setScrollingWhileRefreshingEnabled(true);
-        }
+        final FrameLayout.LayoutParams lp =
+                new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL);
+        // Create Loading Views ready for use later
+        FrameLayout frame = new FrameLayout(getContext());
+        mHeaderLoadingView = createLoadingLayout(getContext(), Mode.PULL_FROM_START);
+        mHeaderLoadingView.setVisibility(View.GONE);
+        frame.addView(mHeaderLoadingView, lp);
+        mRefreshableView.addHeaderView(frame, null, false);
+        mLvFooterLoadingFrame = new FrameLayout(getContext());
+        mFooterLoadingView = createLoadingLayout(getContext(), Mode.PULL_FROM_END);
+        mFooterLoadingView.setVisibility(View.GONE);
+        mLvFooterLoadingFrame.addView(mFooterLoadingView, lp);
+        /**
+         * If the value for Scrolling While Refreshing hasn't been explicitly set via XML, enable Scrolling While
+         * Refreshing.
+         */
+        setScrollingWhileRefreshingEnabled(true);
     }
 
     @TargetApi(9)
@@ -241,7 +226,6 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
             final boolean returnValue =
                     super.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX,
                             maxOverScrollY, isTouchEvent);
-
             // Does all of the hard work...
             OverscrollHelper.overScrollBy(PullToRefreshListView.this, deltaX, scrollX, deltaY, scrollY, isTouchEvent);
             return returnValue;
