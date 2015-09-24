@@ -94,7 +94,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 	private LoadingLayout mFooterLayout;
 
 	private OnRefreshListener<T> mOnRefreshListener;
-	private OnRefreshListener2<T> mOnRefreshListener2;
 	private OnPullEventListener<T> mOnPullEventListener;
 
 	private SmoothScrollRunnable mCurrentSmoothScrollRunnable;
@@ -348,7 +347,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 					mIsBeingDragged = false;
 
 					if (mState == State.RELEASE_TO_REFRESH
-							&& (null != mOnRefreshListener || null != mOnRefreshListener2)) {
+							&& (null != mOnRefreshListener)) {
 						setState(State.REFRESHING, true);
 						return true;
 					}
@@ -436,13 +435,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 	@Override
 	public final void setOnRefreshListener(OnRefreshListener<T> listener) {
 		mOnRefreshListener = listener;
-		mOnRefreshListener2 = null;
-	}
-
-	@Override
-	public final void setOnRefreshListener(OnRefreshListener2<T> listener) {
-		mOnRefreshListener2 = listener;
-		mOnRefreshListener = null;
 	}
 
 	/**
@@ -1059,17 +1051,15 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 	}
 
 	private void callRefreshListener() {
-		if (null != mOnRefreshListener) {
-			mOnRefreshListener.onRefresh(this);
-		} else if (null != mOnRefreshListener2) {
-			if (mCurrentMode == Mode.PULL_FROM_START) {
-				mOnRefreshListener2.onPullDownToRefresh(this);
-			} else if (mCurrentMode == Mode.PULL_FROM_END) {
-				mOnRefreshListener2.onPullUpToRefresh(this);
-			}
-		}
-	}
-
+        if (null != mOnRefreshListener) {
+            if (mCurrentMode == Mode.PULL_FROM_START) {
+                mOnRefreshListener.onPullStartToRefresh(this);
+            } else if (mCurrentMode == Mode.PULL_FROM_END) {
+                mOnRefreshListener.onPullEndToRefresh(this);
+            }
+        }
+    }
+	
 	@SuppressWarnings("deprecation")
 	private void init(Context context, AttributeSet attrs) {
 		switch (getPullToRefreshScrollDirection()) {
@@ -1478,44 +1468,18 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 
 	}
 
-	/**
-	 * Simple Listener to listen for any callbacks to Refresh.
-	 * 
-	 * @author Chris Banes
-	 */
 	public static interface OnRefreshListener<V extends View> {
+        /**
+         * onPullDownToRefresh will be called only when the user has Pulled from the start, and released.
+         */
+        public void onPullStartToRefresh(final PullToRefreshBase<V> refreshView);
 
-		/**
-		 * onRefresh will be called for both a Pull from start, and Pull from
-		 * end
-		 */
-		public void onRefresh(final PullToRefreshBase<V> refreshView);
+        /**
+         * onPullUpToRefresh will be called only when the user has Pulled from the end, and released.
+         */
+        public void onPullEndToRefresh(final PullToRefreshBase<V> refreshView);
 
-	}
-
-	/**
-	 * An advanced version of the Listener to listen for callbacks to Refresh.
-	 * This listener is different as it allows you to differentiate between Pull
-	 * Ups, and Pull Downs.
-	 * 
-	 * @author Chris Banes
-	 */
-	public static interface OnRefreshListener2<V extends View> {
-		// TODO These methods need renaming to START/END rather than DOWN/UP
-
-		/**
-		 * onPullDownToRefresh will be called only when the user has Pulled from
-		 * the start, and released.
-		 */
-		public void onPullDownToRefresh(final PullToRefreshBase<V> refreshView);
-
-		/**
-		 * onPullUpToRefresh will be called only when the user has Pulled from
-		 * the end, and released.
-		 */
-		public void onPullUpToRefresh(final PullToRefreshBase<V> refreshView);
-
-	}
+    }
 
 	public static enum Orientation {
 		VERTICAL, HORIZONTAL;

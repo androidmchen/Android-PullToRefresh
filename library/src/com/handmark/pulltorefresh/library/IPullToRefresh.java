@@ -21,7 +21,6 @@ import android.view.animation.Interpolator;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnPullEventListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.State;
 
 public interface IPullToRefresh<T extends View> {
@@ -186,13 +185,6 @@ public interface IPullToRefresh<T extends View> {
 	 * @param listener - Listener to be used when the Widget is set to Refresh
 	 */
 	public void setOnRefreshListener(OnRefreshListener<T> listener);
-
-	/**
-	 * Set OnRefreshListener for the Widget
-	 * 
-	 * @param listener - Listener to be used when the Widget is set to Refresh
-	 */
-	public void setOnRefreshListener(OnRefreshListener2<T> listener);
 
 	/**
 	 * Sets whether Overscroll support is enabled. This is different to
