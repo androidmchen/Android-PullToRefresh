@@ -32,7 +32,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
-import com.handmark.pulltorefresh.library.internal.EmptyViewMethodAccessor;
 import com.handmark.pulltorefresh.library.internal.IndicatorLayout;
 
 public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extends PullToRefreshBase<T> implements
@@ -187,12 +186,7 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 				refreshableViewWrapper.addView(newEmptyView);
 			}
 		}
-
-		if (mRefreshableView instanceof EmptyViewMethodAccessor) {
-			((EmptyViewMethodAccessor) mRefreshableView).setEmptyViewInternal(newEmptyView);
-		} else {
-			mRefreshableView.setEmptyView(newEmptyView);
-		}
+		mRefreshableView.setEmptyView(newEmptyView);
 		mEmptyView = newEmptyView;
 	}
 
