@@ -31,6 +31,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
+import cn.adbshell.common.app.ResourcesManager;
+
 import com.handmark.pulltorefresh.library.internal.IndicatorLayout;
 
 public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extends PullToRefreshBase<T> implements
@@ -38,17 +40,14 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 
 	private static FrameLayout.LayoutParams convertEmptyViewLayoutParams(ViewGroup.LayoutParams lp) {
 		FrameLayout.LayoutParams newLp = null;
-
 		if (null != lp) {
 			newLp = new FrameLayout.LayoutParams(lp);
-
 			if (lp instanceof LinearLayout.LayoutParams) {
 				newLp.gravity = ((LinearLayout.LayoutParams) lp).gravity;
 			} else {
 				newLp.gravity = Gravity.CENTER;
 			}
 		}
-
 		return newLp;
 	}
 
@@ -236,7 +235,6 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	@Override
 	protected void onPullToRefresh() {
 		super.onPullToRefresh();
-
 		if (getShowIndicatorInternal()) {
 			switch (getCurrentMode()) {
 				case PULL_FROM_END:
@@ -254,7 +252,6 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 
 	protected void onRefreshing(boolean doScroll) {
 		super.onRefreshing(doScroll);
-
 		if (getShowIndicatorInternal()) {
 			updateIndicatorViewsVisibility();
 		}
@@ -263,7 +260,6 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	@Override
 	protected void onReleaseToRefresh() {
 		super.onReleaseToRefresh();
-
 		if (getShowIndicatorInternal()) {
 			switch (getCurrentMode()) {
 				case PULL_FROM_END:
@@ -282,7 +278,6 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	@Override
 	protected void onReset() {
 		super.onReset();
-
 		if (getShowIndicatorInternal()) {
 			updateIndicatorViewsVisibility();
 		}
@@ -313,7 +308,6 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	@Override
 	protected void updateUIForMode() {
 		super.updateUIForMode();
-
 		// Check Indicator Views consistent with new Mode
 		if (getShowIndicatorInternal()) {
 			addIndicatorViews();
@@ -325,16 +319,14 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	private void addIndicatorViews() {
 		Mode mode = getMode();
 		FrameLayout refreshableViewWrapper = getRefreshableViewWrapper();
-
 		if (mode.showHeaderLoadingLayout() && null == mIndicatorIvTop) {
 			// If the mode can pull down, and we don't have one set already
 			mIndicatorIvTop = new IndicatorLayout(getContext(), Mode.PULL_FROM_START);
 			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
-			params.rightMargin = getResources().getDimensionPixelSize(R.dimen.indicator_right_padding);
+			params.rightMargin = ResourcesManager.getDimensionPixelSize("indicator_right_padding");
 			params.gravity = Gravity.TOP | Gravity.RIGHT;
 			refreshableViewWrapper.addView(mIndicatorIvTop, params);
-
 		} else if (!mode.showHeaderLoadingLayout() && null != mIndicatorIvTop) {
 			// If we can't pull down, but have a View then remove it
 			refreshableViewWrapper.removeView(mIndicatorIvTop);
@@ -346,10 +338,9 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 			mIndicatorIvBottom = new IndicatorLayout(getContext(), Mode.PULL_FROM_END);
 			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
-			params.rightMargin = getResources().getDimensionPixelSize(R.dimen.indicator_right_padding);
+			params.rightMargin = ResourcesManager.getDimensionPixelSize("indicator_right_padding");
 			params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
 			refreshableViewWrapper.addView(mIndicatorIvBottom, params);
-
 		} else if (!mode.showFooterLoadingLayout() && null != mIndicatorIvBottom) {
 			// If we can't pull down, but have a View then remove it
 			refreshableViewWrapper.removeView(mIndicatorIvBottom);

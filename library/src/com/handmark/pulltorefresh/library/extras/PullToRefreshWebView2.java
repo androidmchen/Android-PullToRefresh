@@ -107,10 +107,8 @@ public class PullToRefreshWebView2 extends PullToRefreshWebView {
 	protected boolean isReadyForPullEnd() {
 		// Call Javascript...
 		getRefreshableView().loadUrl(DEF_JS_READY_PULL_UP_CALL);
-
 		// Response will be given to JsValueCallback, which will update
 		// mIsReadyForPullUp
-
 		return mIsReadyForPullUp.get();
 	}
 

@@ -54,9 +54,6 @@ public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView
         } else {
             gv = new InternalGridView(context, attrs);
         }
-
-        // Use Generated ID (from res/values/ids.xml)
-        gv.setId(R.id.gridview);
         return gv;
     }
 
@@ -83,14 +80,11 @@ public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView
         @Override
         protected boolean overScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX,
                 int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
-
             final boolean returnValue =
                     super.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX,
                             maxOverScrollY, isTouchEvent);
-
             // Does all of the hard work...
             OverscrollHelper.overScrollBy(PullToRefreshGridView.this, deltaX, scrollX, deltaY, scrollY, isTouchEvent);
-
             return returnValue;
         }
     }

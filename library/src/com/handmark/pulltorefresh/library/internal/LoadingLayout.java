@@ -15,15 +15,12 @@
  *******************************************************************************/
 package com.handmark.pulltorefresh.library.internal;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
@@ -33,11 +30,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import cn.adbshell.common.app.ResourcesManager;
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Orientation;
-import com.handmark.pulltorefresh.library.R;
 
-@SuppressLint("ViewConstructor")
 public abstract class LoadingLayout extends FrameLayout {
 
 	static final String LOG_TAG = "PullToRefresh-LoadingLayout";
@@ -65,43 +62,38 @@ public abstract class LoadingLayout extends FrameLayout {
 		super(context);
 		mMode = mode;
 		mScrollDirection = scrollDirection;
-
 		switch (scrollDirection) {
-			case HORIZONTAL:
-				LayoutInflater.from(context).inflate(R.layout.pull_to_refresh_header_horizontal, this);
-				break;
-			case VERTICAL:
-			default:
-				LayoutInflater.from(context).inflate(R.layout.pull_to_refresh_header_vertical, this);
-				break;
-		}
-
-		mInnerLayout = (FrameLayout) findViewById(R.id.fl_inner);
-		mHeaderText = (TextView) mInnerLayout.findViewById(R.id.pull_to_refresh_text);
-		mHeaderProgress = (ProgressBar) mInnerLayout.findViewById(R.id.pull_to_refresh_progress);
-		mSubHeaderText = (TextView) mInnerLayout.findViewById(R.id.pull_to_refresh_sub_text);
-		mHeaderImage = (ImageView) mInnerLayout.findViewById(R.id.pull_to_refresh_image);
+            case HORIZONTAL:
+                ResourcesManager.inflateView("ptr_header_horizontal", this);
+                break;
+            case VERTICAL:
+            default:
+                ResourcesManager.inflateView("ptr_header_vertical", this);
+                break;
+        }
+        mInnerLayout = (FrameLayout) ResourcesManager.findViewByIdName(this, "ptr_fl_inner");
+        mHeaderText = (TextView) ResourcesManager.findViewByIdName(mInnerLayout, "ptr_text");
+        mHeaderProgress = (ProgressBar) ResourcesManager.findViewByIdName(mInnerLayout, "ptr_progress");
+        mSubHeaderText = (TextView) ResourcesManager.findViewByIdName(mInnerLayout, "ptr_sub_text");
+        mHeaderImage = (ImageView) ResourcesManager.findViewByIdName(mInnerLayout, "ptr_image");
 
 		FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mInnerLayout.getLayoutParams();
 
 		switch (mode) {
 			case PULL_FROM_END:
 				lp.gravity = scrollDirection == Orientation.VERTICAL ? Gravity.TOP : Gravity.LEFT;
-
 				// Load in labels
-				mPullLabel = context.getString(R.string.pull_to_refresh_from_bottom_pull_label);
-				mRefreshingLabel = context.getString(R.string.pull_to_refresh_from_bottom_refreshing_label);
-				mReleaseLabel = context.getString(R.string.pull_to_refresh_from_bottom_release_label);
+				mPullLabel = ResourcesManager.getString("ptr_from_bottom_pull_label");
+                mRefreshingLabel = ResourcesManager.getString("ptr_from_bottom_refreshing_label");
+                mReleaseLabel = ResourcesManager.getString("ptr_from_bottom_release_label");
 				break;
-
 			case PULL_FROM_START:
 			default:
 				lp.gravity = scrollDirection == Orientation.VERTICAL ? Gravity.BOTTOM : Gravity.RIGHT;
-
 				// Load in labels
-				mPullLabel = context.getString(R.string.pull_to_refresh_pull_label);
-				mRefreshingLabel = context.getString(R.string.pull_to_refresh_refreshing_label);
-				mReleaseLabel = context.getString(R.string.pull_to_refresh_release_label);
+				mPullLabel = ResourcesManager.getString("ptr_pull_label");
+                mRefreshingLabel = ResourcesManager.getString("ptr_refreshing_label");
+                mReleaseLabel = ResourcesManager.getString("ptr_release_label");
 				break;
 		}
 
@@ -158,7 +150,6 @@ public abstract class LoadingLayout extends FrameLayout {
 		if (null != mHeaderText) {
 			mHeaderText.setText(mPullLabel);
 		}
-
 		// Now call the callback
 		pullToRefreshImpl();
 	}
@@ -167,14 +158,12 @@ public abstract class LoadingLayout extends FrameLayout {
 		if (null != mHeaderText) {
 			mHeaderText.setText(mRefreshingLabel);
 		}
-
 		if (mUseIntrinsicAnimation) {
 			((AnimationDrawable) mHeaderImage.getDrawable()).start();
 		} else {
 			// Now call the callback
 			refreshingImpl();
 		}
-
 		if (null != mSubHeaderText) {
 			mSubHeaderText.setVisibility(View.GONE);
 		}
@@ -184,7 +173,6 @@ public abstract class LoadingLayout extends FrameLayout {
 		if (null != mHeaderText) {
 			mHeaderText.setText(mReleaseLabel);
 		}
-
 		// Now call the callback
 		releaseToRefreshImpl();
 	}
@@ -194,14 +182,12 @@ public abstract class LoadingLayout extends FrameLayout {
 			mHeaderText.setText(mPullLabel);
 		}
 		mHeaderImage.setVisibility(View.VISIBLE);
-
 		if (mUseIntrinsicAnimation) {
 			((AnimationDrawable) mHeaderImage.getDrawable()).stop();
 		} else {
 			// Now call the callback
 			resetImpl();
 		}
-
 		if (null != mSubHeaderText) {
 			if (TextUtils.isEmpty(mSubHeaderText.getText())) {
 				mSubHeaderText.setVisibility(View.GONE);
@@ -225,7 +211,6 @@ public abstract class LoadingLayout extends FrameLayout {
 		// Set Drawable
 		mHeaderImage.setImageDrawable(imageDrawable);
 		mUseIntrinsicAnimation = (imageDrawable instanceof AnimationDrawable);
-
 		// Now call the callback
 		onLoadingDrawableSet(imageDrawable);
 	}
